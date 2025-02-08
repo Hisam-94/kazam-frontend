@@ -8,6 +8,7 @@ import {
   fetchTasks,
 } from "../features/tasks/taskSlice";
 import * as Yup from "yup";
+import { ITask } from "../types/types";
 
 const TaskSchema = Yup.object().shape({
   title: Yup.string().required("Required"),
@@ -30,7 +31,7 @@ export default function TaskForm() {
     validationSchema: TaskSchema,
     onSubmit: async (values) => {
       if (id) {
-        await dispatch(updateTask({ ...values, _id: id }));
+        await dispatch(updateTask({ ...values, _id: id } as ITask));
       } else {
         await dispatch(createTask(values));
       }
@@ -44,9 +45,16 @@ export default function TaskForm() {
 
   useEffect(() => {
     if (id && tasks) {
-      formik.setValues(tasks);
+      const task = tasks.find(task => task._id === id);
+      if (task) {
+        formik.setValues({
+          title: task.title || "",
+          description: task.description || "",
+          status: (task.status as "pending" | "completed") || "pending"
+        });
+      }
     }
-  }, [tasks]);
+  }, [id, tasks, formik.setValues]);
 
   return (
     <div className="max-w-2xl mx-auto p-4">
