@@ -11,7 +11,7 @@ export default function TaskItem({ task }: Props) {
   const dispatch = useAppDispatch();
 
   const handleToggle = async () => {
-    const updatedTask = {
+    const updatedTask: ITask = {
       ...task,
       status: task.status === 'pending' ? 'completed' : 'pending',
     };

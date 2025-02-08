@@ -38,7 +38,6 @@ export default function TaskForm() {
       navigate("/");
     },
   });
-
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);

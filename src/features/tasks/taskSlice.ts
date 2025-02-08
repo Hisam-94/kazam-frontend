@@ -19,7 +19,7 @@ export const fetchTasks = createAsyncThunk('tasks/fetchAll', async () => {
   return response.data;
 });
 
-export const createTask = createAsyncThunk('tasks/create', async (taskData: Omit<ITask, '_id'>) => {
+export const createTask = createAsyncThunk('tasks/create', async (taskData: Omit<ITask, '_id' | 'createdAt' | 'updatedAt' | 'user'>) => {
   const response = await API.post('/tasks', taskData);
   return response.data;
 });
